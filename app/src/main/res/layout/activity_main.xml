@@ -16,7 +16,8 @@
             android:id="@+id/todo_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/addButton" />
+            android:layout_above="@id/addButton"
+            tools:ignore="UnknownId" />
 
     </RelativeLayout>
 
@@ -27,11 +28,10 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:hint="@string/type_here" />
+            android:id="@+id/todo_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter todo item" />
 
         <Switch
             android:id="@+id/urgent_switch"
@@ -40,11 +40,10 @@
             android:text="@string/urgent" />
 
         <Button
-            android:id="@+id/addButton"
+            android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Todo"
-            android:onClick="onAddTodoClick" />
+            android:text="Add" />
     </LinearLayout>
 
 </LinearLayout>

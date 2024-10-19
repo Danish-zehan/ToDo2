@@ -18,12 +18,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+    
         dbHelper = new TodoDatabaseHelper(this);
-        todoListLayout = findViewById(R.id.todoListLayout);
-        EditText todoInput = findViewById(R.id.todoInput);
-        Button addButton = findViewById(R.id.addButton);
-
+        todoListLayout = new LinearLayout(this);
+        todoListLayout.setOrientation(LinearLayout.VERTICAL);
+        ((LinearLayout) findViewById(android.R.id.content)).addView(todoListLayout);
+        
+        EditText todoInput = findViewById(R.id.todo_input); // Updated ID
+        Button addButton = findViewById(R.id.add_button); // Make sure this ID exists in your layout
+    
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 todoInput.setText(""); // Clear input
             }
         });
-
+    
         displayTodos(); // Initial display of todos
     }
 

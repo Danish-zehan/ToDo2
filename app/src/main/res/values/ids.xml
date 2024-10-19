@@ -3,4 +3,5 @@
     <item name="textView_todo" type="id" />
     <item name="todo_text" type="id" />
     <item name="todoListView" type="id">todoListview</item>
+    <item name="addButton" type="id">addButton</item>
 </resources>
