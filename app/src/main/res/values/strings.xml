@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Todo List App</string>
-    <string name="type_here">Type here...</string>
-    <string name="urgent">Urgent</string>
-    <string name="add">Add</string>
+    <string name="app_name">To-Do App</string>
+    <string name="hint_todo_input">Enter a todo</string>
+    <string name="button_add_todo">Add Todo</string>
+    <string name="label_urgent">Urgent</string>
+    <string name="error_empty_input">Please enter a todo item.</string>
+    <string name="toast_item_added">Todo item added!</string>
 </resources>

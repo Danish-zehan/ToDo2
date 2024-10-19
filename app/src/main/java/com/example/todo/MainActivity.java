@@ -1,58 +1,66 @@
 package com.example.todo;
 
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
-
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
-
-    private ListView listView;
-    private EditText editText;
-    private Switch urgentSwitch;
-    private Button addButton;
-    private ArrayList<String> todoList;
-    private com.example.todo.TodoAdapter todoAdapter;
+    private TodoDatabaseHelper dbHelper;
+    private LinearLayout todoListLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize views
-        listView = findViewById(R.id.todo_list);
-        editText = findViewById(R.id.edit_text);
-        urgentSwitch = findViewById(R.id.urgent_switch);
-        addButton = findViewById(R.id.add_button);
+        dbHelper = new TodoDatabaseHelper(this);
+        todoListLayout = findViewById(R.id.todoListLayout);
+        EditText todoInput = findViewById(R.id.todoInput);
+        Button addButton = findViewById(R.id.addButton);
 
-        // Initialize the todo list and adapter
-        todoList = new ArrayList<>();
-        todoAdapter = new com.example.todo.TodoAdapter(this, todoList);
-        listView.setAdapter(todoAdapter);
-
-        // Set the click listener for the add button
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newTodo = editText.getText().toString().trim();
-                if (!newTodo.isEmpty()) {
-                    if (urgentSwitch.isChecked()) {
-                        newTodo = "URGENT: " + newTodo;
-                    }
-                    todoList.add(newTodo);
-                    todoAdapter.notifyDataSetChanged();
-                    editText.setText("");
-                } else {
-                    Toast.makeText(MainActivity.this, "Please enter a task", Toast.LENGTH_SHORT).show();
-                }
+                String text = todoInput.getText().toString();
+                boolean urgent = false /* determine urgency, e.g., from a checkbox or switch */;
+                dbHelper.addTodo(text, urgent);
+                displayTodos();
+                todoInput.setText(""); // Clear input
             }
         });
+
+        displayTodos(); // Initial display of todos
+    }
+
+    private void displayTodos() {
+        todoListLayout.removeAllViews(); // Clear previous views
+        Cursor cursor = dbHelper.getAllTodos();
+        if (cursor != null && cursor.moveToFirst()) {
+            int textColumnIndex = cursor.getColumnIndex(TodoDatabaseHelper.COLUMN_TEXT);
+            int urgentColumnIndex = cursor.getColumnIndex(TodoDatabaseHelper.COLUMN_URGENT);
+            
+            if (textColumnIndex != -1 && urgentColumnIndex != -1) {
+                do {
+                    String text = cursor.getString(textColumnIndex);
+                    boolean urgent = cursor.getInt(urgentColumnIndex) == 1;
+    
+                    TextView todoTextView = new TextView(this);
+                    todoTextView.setText(text);
+                    if (urgent) {
+                        todoTextView.setTextColor(Color.RED);
+                    } else {
+                        todoTextView.setTextColor(Color.BLACK);
+                    }
+                    todoListLayout.addView(todoTextView);
+                } while (cursor.moveToNext());
+            }
+            cursor.close(); // Always close the cursor
+        }
     }
 }
