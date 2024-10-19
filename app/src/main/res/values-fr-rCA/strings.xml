@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Application de tâches</string>
+    <string name="hint_todo_input">Entrez une tâche</string>
+    <string name="button_add_todo">Ajouter une tâche</string>
+    <string name="label_urgent">Urgent</string>
+    <string name="error_empty_input">Veuillez entrer une tâche.</string>
+    <string name="toast_item_added">Tâche ajoutée!</string>
+</resources>
